@@ -51,7 +51,7 @@ export const submitCode = async(req, res) => {
         }); 
     } catch (error) {
         console.log(error);
-        if(req.file)fs.unlinkSync(req.file.path)
+        if(req.file)fs.unlinkSync(req.file.path);
         return res.status(500).json({
             message: "Internal Server Error"
         });
