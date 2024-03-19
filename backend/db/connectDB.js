@@ -14,15 +14,18 @@ export const pool = mysql.createPool({
     connectionLimit: 10,
     queueLimit: 100,
 })
+
 // export const pool = mysql.createPool({
 //     host: `${process.env.HOST}`,
-//     user: `${process.env.USER}`,
+//     user: `${process.env.USERNAME}`,
 //     password: `${process.env.PASSWORD}`,
 //     database: `${process.env.DATABASE}`,
 //     waitForConnections: process.env.WAIT_FOR_CONNECTIONS,
 //     connectionLimit: process.env.CONNECTION_LIMIT,
 //     queueLimit: process.env.QUEUE_LIMIT,
 // })
+
+// console.log(pool);
 
 
 

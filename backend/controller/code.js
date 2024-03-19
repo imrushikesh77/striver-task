@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { pool } from '../db/connectDB.js';
+import client from '../redis/redis.js';
 
 export const submitCode = async(req, res) => {
     try {
@@ -21,7 +22,7 @@ export const submitCode = async(req, res) => {
                 data = fs.readFileSync(codeFile.path, 'utf-8');
             } catch (err) {
                 console.log(err);
-                return res.json({
+                return res.status(500).json({
                     message: "An error occurred while reading the file"
                 });
             }
@@ -34,18 +35,22 @@ export const submitCode = async(req, res) => {
             if (err) {
                 console.log(err);
                 if(codeFile)fs.unlinkSync(codeFile.path);
-                return res.json({
+                return res.status(500).json({
                     message: "An error occurred while inserting into the database"
                 });
             }
             if(codeFile)fs.unlinkSync(codeFile.path);
-            return res.json({
+            // Clearing the redis cache
+            if(client.connected){
+                client.del('submissions');
+            }
+            return res.status(200).json({
                 message: "Code submitted successfully"
             });
         }); 
     } catch (error) {
         console.log(error);
-        return res.json({
+        return res.status(500).json({
             message: "Internal Server Error"
         });
     }
@@ -54,18 +59,29 @@ export const submitCode = async(req, res) => {
 
 export const getSubmissions = (req, res) => {
     try {
+        // Checking if the redis client is connected.
+        if(client.connected){
+            // If connected, check if the 'submissions' key exists in the cache.
+            if(client.get('submissions')){
+                return res.status(200).json(JSON.parse(client.get('submissions')));
+            }
+        }
         pool.query("SELECT id,username,language,stdin,sourceCode,timestamp FROM mydb", (err, result) => {
             if (err) {
                 console.log(err);
-                return res.json({
+                return res.status(500).json({
                     message: "An error occurred while fetching data"
                 });
             }
-            return res.json(result);
+            // If the redis client is connected, set the 'submissions' key in the cache.
+            if(client.connected){
+                client.set('submissions', JSON.stringify(result));
+            }
+            return res.status(200).json(result);
         });
     } catch (error) {
         console.log(error);
-        return res.json({
+        return res.status(500).json({
             message: "Internal Server Error"
         });
     }
