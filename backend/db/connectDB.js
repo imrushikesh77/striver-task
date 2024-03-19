@@ -4,26 +4,14 @@ dotenv.config({
     path: './.env'
 });
 
-
 export const pool = mysql.createPool({
-    host: '172.17.0.2',
-    user: `root`,
-    password: `pw`,
-    database: `striver`,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 100,
+    host: `${process.env.HOST}`,
+    user: `sql6692532`,
+    password: `${process.env.PASSWORD}`,
+    database: `${process.env.DATABASE}`,
+    waitForConnections: process.env.WAIT_FOR_CONNECTIONS,
+    connectionLimit: process.env.CONNECTION_LIMIT,
 })
-
-// export const pool = mysql.createPool({
-//     host: `${process.env.HOST}`,
-//     user: `${process.env.USERNAME}`,
-//     password: `${process.env.PASSWORD}`,
-//     database: `${process.env.DATABASE}`,
-//     waitForConnections: process.env.WAIT_FOR_CONNECTIONS,
-//     connectionLimit: process.env.CONNECTION_LIMIT,
-//     queueLimit: process.env.QUEUE_LIMIT,
-// })
 
 // console.log(pool);
 
