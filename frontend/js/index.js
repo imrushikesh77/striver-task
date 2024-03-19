@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('sourceCode', sourceCode);
         if(codeFile)formData.append('codeFile', codeFile);
 
-        fetch('http://localhost:3000/submit', {
+        fetch('https://striver-task.onrender.com/submit', {
             method: 'POST',
             body: formData
         })

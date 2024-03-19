@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/submissions')
+fetch('https://striver-task.onrender.com/submissions')
     .then(response => response.json())
     .then(data => {
         const submissions = document.getElementById('submission-table');
