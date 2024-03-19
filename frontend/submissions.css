@@ -61,10 +61,16 @@ a{
         font-size: 12px;
     }
 }
-@media screen and (max-width: 630px){
+@media screen and (max-width: 720px){
     .container{
         width: 100%;
         font-size: 8px;
+    }
+}
+@media screen and (max-width: 496px){
+    .container{
+        width: 100%;
+        font-size: 6px;
     }
 }
 

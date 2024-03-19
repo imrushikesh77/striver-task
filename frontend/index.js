@@ -2,8 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitCode = document.getElementById('button');
 
     submitCode.addEventListener('click', (event) => {
-
-        event.preventDefault();
         const username = document.getElementById('username').value;
         const language = document.getElementById('language').value;
         const stdin = document.getElementById('stdin').value;
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => console.error('Error:', error));
-        event.preventDefault();
     });
 });
 
