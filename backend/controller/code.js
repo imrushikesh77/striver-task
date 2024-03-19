@@ -22,6 +22,7 @@ export const submitCode = async(req, res) => {
                 data = fs.readFileSync(codeFile.path, 'utf-8');
             } catch (err) {
                 console.log(err);
+                fs.unlinkSync(codeFile.path);
                 return res.status(500).json({
                     message: "An error occurred while reading the file"
                 });
@@ -50,6 +51,7 @@ export const submitCode = async(req, res) => {
         }); 
     } catch (error) {
         console.log(error);
+        if(req.file)fs.unlinkSync(req.file.path)
         return res.status(500).json({
             message: "Internal Server Error"
         });
